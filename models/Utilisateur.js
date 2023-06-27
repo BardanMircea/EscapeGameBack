@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose=require("mongoose");
 
 // creer schema pour Utilisateur
 const schemaUtilisateur = new mongoose.Schema({
@@ -11,6 +11,6 @@ const schemaUtilisateur = new mongoose.Schema({
 });
 
 // creer le model pour Utilisateur
-const Utilisateur = mongoose.model("Utilisateur", schemaUtilisateur)
+const Utilisateur = mongoose.model("utilisateurs", schemaUtilisateur)
 
-exports.Utilisateur
+module.exports = Utilisateur
