@@ -6,6 +6,7 @@ const schemaParticipant = new mongoose.Schema({
   jour: String,
   creneau: String,
   utilisateurId: String,
+
 });
 
 // creer le model pour Participant
