@@ -28,10 +28,10 @@ const checkValidIdParticipant = async (req, res, next) => {
 // get all participants
 participantRouter.get("/", async (req, res) => {
   const participants = await Participant.find({});
-  res.send(participants);
+  res.json(participants);
 });
 
-// //get participant whith id
+// //get participants by reservation id
 participantRouter.get("/:id", async (req, res) => {
   let idReservation = req.params.id;
 
@@ -40,7 +40,7 @@ participantRouter.get("/:id", async (req, res) => {
     const participants = await Participant.find({
       reservationId: idReservation,
     });
-    res.send(participants);
+    res.json(participants);
   } else {
     return res.status(404).json({ error: "Reservation n'existe pas" });
   }
@@ -57,7 +57,7 @@ participantRouter.post("/", async (req, res) => {
       reservationId: req.body.reservationId,
     });
     const participants = await Participant.find({});
-    res.send(participants);
+    res.json(participants);
   } else {
     res.sendStatus(422);
   }
@@ -65,7 +65,7 @@ participantRouter.post("/", async (req, res) => {
 
 // Update the given participant
 participantRouter.put("/:id", checkValidIdParticipant, async (req, res) => {
-  const updatParticipant = await Participant.findByIdAndUpdate(
+  const updateParticipant = await Participant.findByIdAndUpdate(
     req.params.id,
     {
       nom: req.body.nom,
@@ -75,7 +75,7 @@ participantRouter.put("/:id", checkValidIdParticipant, async (req, res) => {
     },
     { new: true } //pour renvoyer le document participant mis à jour
   );
-  res.send(updatParticipant);
+  res.json(updateParticipant);
 });
 
 // Delete the given participant
@@ -87,7 +87,8 @@ participantRouter.delete("/:id", checkValidIdParticipant, async (req, res) => {
     if (!deletedParticipant) {
       return res.status(404).json({ error: "Participant not found" });
     }
-    res.json({ message: "Participant deleted successfully" });
+    // send the updated list of Participants
+    res.json(await Participant.find({}));
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
   }

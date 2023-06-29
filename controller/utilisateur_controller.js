@@ -24,19 +24,19 @@ const checkValidIdUser = async (req, res, next) => {
 // get all utilisateurs
 utilisateurRouter.get("/", async (req, res) => {
   const utilisateurs = await Utilisateur.find({});
-  res.send(utilisateurs);
+  res.json(utilisateurs);
 });
 
 //get utilisateur whith idmiddlware
 utilisateurRouter.get("/:id", checkValidIdUser, async (req, res) => {
   let id = req.params.id;
   const user = await Utilisateur.findOne({ _id: id });
-  res.send(user);
+  res.json(user);
 });
 
 // Create a new user
 utilisateurRouter.post("/", async (req, res) => {
-  const { nom, prenom, email, mdp, naissance, role } = await req.body;
+  const { nom, prenom, email, mdp, naissance, role } = req.body;
   if (nom && prenom && email && mdp && naissance && role) {
     await Utilisateur.create({
       nom: req.body.nom,
@@ -47,16 +47,16 @@ utilisateurRouter.post("/", async (req, res) => {
       role: req.body.role,
     });
     const utilisateurs = await Utilisateur.find({});
-    res.send(utilisateurs);
+    res.json(utilisateurs);
   } else {
-    res.sendStatus(422);
+    res.status(422).json("Attributs manquants");
   }
 });
 
 // Update the given user
 utilisateurRouter.put("/:id", checkValidIdUser, async (req, res) => {
   const { nom, prenom, email, mdp, naissance, role } = await req.body;
-  const updateser = await Utilisateur.findByIdAndUpdate(
+  const updateUser = await Utilisateur.findByIdAndUpdate(
     req.params.id,
     {
       nom: req.body.nom,
@@ -68,7 +68,7 @@ utilisateurRouter.put("/:id", checkValidIdUser, async (req, res) => {
     },
     { new: true } //pour renvoyer le document utilisateur mis à jour
   );
-  res.send(updateser);
+  res.json(updateUser);
 });
 
 // Delete the given user
@@ -78,7 +78,7 @@ utilisateurRouter.delete("/:id", checkValidIdUser, async (req, res) => {
     if (!deletedUser) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.json({ message: "User deleted successfully" });
+    res.json(await Utilisateur.find({}));
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
   }
