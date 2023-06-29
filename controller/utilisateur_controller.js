@@ -7,17 +7,14 @@ const mongoose = require("mongoose");
 const checkValidIdUser = async (req, res, next) => {
   try {
     const id = req.params.id;
-
     // Validate the ID format
     if (!mongoose.isValidObjectId(id)) {
       return res.status(404).json({ error: "Invalid utilisateur ID" });
     }
-
     const user = await Utilisateur.findById(id);
     if (!user) {
       return res.status(404).json({ error: "L'utilisateur n'existe pas" });
     }
-
     next();
   } catch (err) {
     next(err);
