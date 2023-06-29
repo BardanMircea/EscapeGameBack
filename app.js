@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}))
 
 // configurer les routes
-app.use("/salles", salle_router)
+app.use("salles", salle_router)
 app.use("utilisateurs", utilisateurRouter)
 
 
