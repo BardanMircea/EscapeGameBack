@@ -13,8 +13,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}))
 
 // configurer les routes
-app.use("salles", salle_router)
-app.use("utilisateurs", utilisateurRouter)
+app.use("/salles", salle_router)
+app.use("/utilisateurs", utilisateurRouter)
 
 
 // start the server at http://localhost:3000

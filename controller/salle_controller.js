@@ -25,12 +25,12 @@ salle_router.post("/", async(req, res) => {
 })
 
 //update  Salle
-salle_router.put("/:salleId", checkValidSalleId, async(req, res) => {
-    const {nom, description, capacite, img} = await Salle.findById(req.params.salleId)
-    const salle = await Salle.findById(req.params.salleId)
+salle_router.put("/:salle_id", checkValidSalleId, async(req, res) => {
+    const {nom, description, capacite, img} = await Salle.findById(req.params.salle_id)
+    const salle = await Salle.findById(req.params.salle_id)
     
     const updatedSalle = await Salle.findByIdAndUpdate(
-        req.params.salleId,
+        req.params.salle_id,
         {
           nom: req.body.nom,
           description: req.body.description,
