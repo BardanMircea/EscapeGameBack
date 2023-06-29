@@ -30,28 +30,56 @@ reservationRouter.get("/", async (req, res) => {
   res.send(reservations);
 });
 
-// //get reservation whith idmiddlware
-// reservationRouter.get("/:id", checkValidIdReserv, async (req, res) => {
-//   let id = req.params.id;
-//   const reservation = await Reservation.findOne({ _id: id });
-//   res.send(reservation);
-// });
+//get reservation whith idmiddlware
+reservationRouter.get("/:id", checkValidIdReserv, async (req, res) => {
+  let id = req.params.id;
+  const reservation = await Reservation.findOne({ _id: id });
+  res.send(reservation);
+});
 
-// // Create a new user
-// utilisateurRouter.post("/", async (req, res) => {
-//     const { nom, prenom, email, mdp, naissance, role } = await req.body;
-//     if (nom && prenom && email && mdp && naissance && role) {
-//       await Utilisateur.create({
-//         nom: req.body.nom,
-//         prenom: req.body.prenom,
-//         email: req.body.email,
-//         mdp: req.body.mdp,
-//         naissance: req.body.naissance,
-//         role: req.body.role,
-//       });
-//       const utilisateurs = await Utilisateur.find({});
-//       res.send(utilisateurs);
-//     } else {
-//       res.sendStatus(422);
-//     }
-//   });
+// Create a reservation
+reservationRouter.post("/", async (req, res) => {
+  const { salleId, jour, creneau, utilisateurId } = await req.body;
+  if (salleId && jour && creneau && utilisateurId) {
+    await Reservation.create({
+      salleId: req.body.salleId,
+      jour: req.body.jour,
+      creneau: req.body.creneau,
+      utilisateurId: req.body.utilisateurId,
+    });
+    const reservations = await Reservation.find({});
+    res.send(reservations);
+  } else {
+    res.sendStatus(422);
+  }
+});
+
+// Update the given reservation
+reservationRouter.put("/:id", checkValidIdReserv, async (req, res) => {
+  const updateReserv = await Reservation.findByIdAndUpdate(
+    req.params.id,
+    {
+      salleId: req.body.salleId,
+      jour: req.body.jour,
+      creneau: req.body.creneau,
+      utilisateurId: req.body.utilisateurId,
+    },
+    { new: true } //pour renvoyer le document utilisateur mis à jour
+  );
+  res.send(updateReserv);
+});
+
+// Delete the given reservation
+reservationRouter.delete("/:id", checkValidIdReserv, async (req, res) => {
+  try {
+    const deletedReserv = await Reservation.findByIdAndDelete(req.params.id);
+    if (!deletedReserv) {
+      return res.status(404).json({ error: "Reservation not found" });
+    }
+    res.json({ message: "Reservation deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+module.exports = reservationRouter;
