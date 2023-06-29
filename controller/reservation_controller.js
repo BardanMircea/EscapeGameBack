@@ -27,14 +27,14 @@ const checkValidIdReserv = async (req, res, next) => {
 // get all reservations
 reservationRouter.get("/", async (req, res) => {
   const reservations = await Reservation.find({});
-  res.send(reservations);
+  res.json(reservations);
 });
 
 //get reservation whith idmiddlware
 reservationRouter.get("/:id", checkValidIdReserv, async (req, res) => {
   let id = req.params.id;
   const reservation = await Reservation.findOne({ _id: id });
-  res.send(reservation);
+  res.json(reservation);
 });
 
 // Create a reservation
@@ -50,7 +50,7 @@ reservationRouter.post("/", async (req, res) => {
     const reservations = await Reservation.find({});
     res.send(reservations);
   } else {
-    res.sendStatus(422);
+    res.status(422).json("Attributs manquants");
   }
 });
 
@@ -66,7 +66,7 @@ reservationRouter.put("/:id", checkValidIdReserv, async (req, res) => {
     },
     { new: true } //pour renvoyer le document utilisateur mis à jour
   );
-  res.send(updateReserv);
+  res.json(updateReserv);
 });
 
 // Delete the given reservation
@@ -76,7 +76,7 @@ reservationRouter.delete("/:id", checkValidIdReserv, async (req, res) => {
     if (!deletedReserv) {
       return res.status(404).json({ error: "Reservation not found" });
     }
-    res.json({ message: "Reservation deleted successfully" });
+    res.json(await Reservation.find({}));
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
   }
