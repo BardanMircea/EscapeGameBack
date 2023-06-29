@@ -49,7 +49,8 @@ utilisateurRouter.post("/", async (req, res) => {
       naissance: req.body.naissance,
       role: req.body.role,
     });
-    res.send(req.body);
+    const utilisateurs = await Utilisateur.find({});
+    res.send(utilisateurs);
   } else {
     res.sendStatus(422);
   }
