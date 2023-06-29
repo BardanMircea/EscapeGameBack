@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // configurer les routes
 app.use("/salles", salle_router);
 app.use("/utilisateurs", utilisateurRouter);
-// app.use("/reservations", reservationRouter);
+app.use("/reservations", reservationRouter);
 
 // start the server at http://localhost:3000
 app.listen(port, async () => {
