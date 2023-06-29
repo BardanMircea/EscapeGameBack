@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const salle_router = require("./controller/salle_controller");
 const utilisateurRouter = require("./controller/utilisateur_controller");
 const participantRouter = require("./controller/participant-cotroller");
+const reservationRouter = require("./controller/reservation_controller");
 
 // use body-parser pour les requettes POST at PUT
 app.use(bodyParser.json());
