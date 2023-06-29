@@ -17,6 +17,8 @@ app.use("/salles", salle_router)
 app.use("utilisateurs", utilisateurRouter)
 
 
+// test
+
 // start the server at http://localhost:3000
 app.listen(port, async () =>{
     require("dotenv").config() // n'oubliez pas d'installer dotenv (npm i dotenv), et de creer le fichier [.env]
