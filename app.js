@@ -15,8 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // configurer les routes
 app.use("/salles", salle_router);
-app.use("utilisateurs", utilisateurRouter);
-app.use("participants", participantRouter);
+app.use("/utilisateurs", utilisateurRouter);
+app.use("/participants", participantRouter);
 
 // start the server at http://localhost:3000
 app.listen(port, async () => {

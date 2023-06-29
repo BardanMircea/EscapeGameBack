@@ -2,11 +2,10 @@ const mongoose = require("mongoose");
 
 // creer schema pour Participant
 const schemaParticipant = new mongoose.Schema({
-  salleId: String,
-  jour: String,
-  creneau: String,
-  utilisateurId: String,
-
+  nom: String,
+  prenom: String,
+  naissance: Date,
+  reservationId: String,
 });
 
 // creer le model pour Participant
