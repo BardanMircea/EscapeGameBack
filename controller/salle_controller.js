@@ -4,12 +4,12 @@ const salle_router = express.Router()
 const mongoose = require("mongoose")
 
 // CRUD pour Salle
-// get all
+// get toutes les Salles
 salle_router.get("/", async(req, res) => {
     res.json(await Salle.find({}))
 })
 
-// get salle by id
+// get une salle by id
 salle_router.get("/:salle_id", checkValidSalleId, async(req, res) => {
     res.json(await Salle.findById(req.params.salle_id))
 }) 
@@ -24,7 +24,7 @@ salle_router.post("/", async(req, res) => {
     }
 })
 
-//update  Salle
+// mettre a jour une Salle
 salle_router.put("/:salle_id", checkValidSalleId, async(req, res) => {
     const {nom, description, capacite, img} = await Salle.findById(req.params.salle_id)
     const salle = await Salle.findById(req.params.salle_id)
@@ -43,8 +43,17 @@ salle_router.put("/:salle_id", checkValidSalleId, async(req, res) => {
     res.json(updatedSalle)
 })
 
+// supprimer une Salle
+salle_router.delete("/:salle_id", checkValidSalleId, async(req, res) => {
 
-// middleware to check if Salle id is valid
+    await Salle.findByIdAndDelete(req.params.salle_id)
+
+    res.status(200).json(await Salle.find({}));
+      
+})
+
+
+// middleware pour verifier si l'id de la Salle est valide
 async function checkValidSalleId(req, res, next) {
     try {
         const id = req.params.salle_id
