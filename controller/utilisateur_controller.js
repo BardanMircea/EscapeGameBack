@@ -2,6 +2,7 @@ const Utilisateur = require("../models/Utilisateur");
 const express = require("express");
 const utilisateurRouter = express.Router();
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt")
 
 // middleware to 404 error utilisateur
 const checkValidIdUser = async (req, res, next) => {
@@ -27,7 +28,7 @@ utilisateurRouter.get("/", async (req, res) => {
   res.json(utilisateurs);
 });
 
-//get utilisateur whith idmiddlware
+//get utilisateur by id with middleware
 utilisateurRouter.get("/:id", checkValidIdUser, async (req, res) => {
   let id = req.params.id;
   const user = await Utilisateur.findOne({ _id: id });
@@ -38,13 +39,17 @@ utilisateurRouter.get("/:id", checkValidIdUser, async (req, res) => {
 utilisateurRouter.post("/", async (req, res) => {
   const { nom, prenom, email, mdp, naissance, role } = req.body;
   if (nom && prenom && email && mdp && naissance && role) {
+    
+    // hashage du mdp
+    const encryptedMdp = bcrypt.hashSync(mdp, 8)
+
     await Utilisateur.create({
-      nom: req.body.nom,
-      prenom: req.body.prenom,
-      email: req.body.email,
-      mdp: req.body.mdp,
-      naissance: req.body.naissance,
-      role: req.body.role,
+      nom: nom,
+      prenom: prenom,
+      email: email,
+      mdp: encryptedMdp,
+      naissance: naissance,
+      role: role,
     });
     const utilisateurs = await Utilisateur.find({});
     res.json(utilisateurs);
@@ -55,16 +60,24 @@ utilisateurRouter.post("/", async (req, res) => {
 
 // Update the given user
 utilisateurRouter.put("/:id", checkValidIdUser, async (req, res) => {
-  const { nom, prenom, email, mdp, naissance, role } = await req.body;
+  const { nom, prenom, email, mdp, naissance, role } = req.body;
+  const updatedUser = await Utilisateur.findById(req.params.id)
+
+  // if the mdp is present in the req.body, hash it and save the new hash in the database, else keep the old mdp hash
+  let updatedMdp = updatedUser.mdp;
+  if(mdp) {
+    updatedMdp = bcrypt.hashSync(mdp, 8)
+  }
+
   const updateUser = await Utilisateur.findByIdAndUpdate(
     req.params.id,
     {
-      nom: req.body.nom,
-      prenom: req.body.prenom,
-      email: req.body.email,
-      mdp: req.body.mdp,
-      naissance: req.body.naissance,
-      role: req.body.role,
+      nom: nom,
+      prenom: prenom,
+      email: email,
+      mdp: updatedMdp,
+      naissance: naissance,
+      role: role,
     },
     { new: true } //pour renvoyer le document utilisateur mis à jour
   );
