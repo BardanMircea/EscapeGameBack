@@ -6,9 +6,10 @@ const mongoose = require("mongoose"); // install mongoose (npm i mongoose)
 const bodyParser = require("body-parser");
 // import routers
 const salle_router = require("./controller/salle_controller");
-const utilisateurRouter = require("./controller/utilisateur_controller");
-const participantRouter = require("./controller/participant-cotroller");
-const reservationRouter = require("./controller/reservation_controller");
+const utilisateur_router = require("./controller/utilisateur_controller");
+const participant_router = require("./controller/participant-cotroller");
+const reservation_router = require("./controller/reservation_controller");
+const login_router = require("./controller/login_controller")
 
 // use body-parser pour les requettes POST at PUT
 app.use(bodyParser.json());
@@ -16,9 +17,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // configurer les routes
 app.use("/salles", salle_router);
-app.use("/utilisateurs", utilisateurRouter);
-app.use("/reservations", reservationRouter);
-app.use("/participants", participantRouter);
+app.use("/utilisateurs", utilisateur_router);
+app.use("/reservations", reservation_router);
+app.use("/participants", participant_router);
+app.use("/login", login_router)
 
 // start the server at http://localhost:3000
 app.listen(port, async () => {

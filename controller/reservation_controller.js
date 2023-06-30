@@ -39,13 +39,13 @@ reservationRouter.get("/:id", checkValidIdReserv, async (req, res) => {
 
 // Create a reservation
 reservationRouter.post("/", async (req, res) => {
-  const { salleId, jour, creneau, utilisateurId } = await req.body;
+  const { salleId, jour, creneau, utilisateurId } = req.body;
   if (salleId && jour && creneau && utilisateurId) {
     await Reservation.create({
-      salleId: req.body.salleId,
-      jour: req.body.jour,
-      creneau: req.body.creneau,
-      utilisateurId: req.body.utilisateurId,
+      salleId: salleId,
+      jour: jour,
+      creneau: creneau,
+      utilisateurId: utilisateurId,
     });
     const reservations = await Reservation.find({});
     res.send(reservations);
