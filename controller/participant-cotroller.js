@@ -51,10 +51,10 @@ participantRouter.post("/", async (req, res) => {
   const { nom, prenom, naissance, reservationId } = await req.body;
   if (nom && prenom && naissance && reservationId) {
     await Participant.create({
-      nom: req.body.nom,
-      prenom: req.body.prenom,
-      naissance: req.body.naissance,
-      reservationId: req.body.reservationId,
+      nom: nom,
+      prenom: prenom,
+      naissance: naissance,
+      reservationId: reservationId,
     });
     const participants = await Participant.find({});
     res.json(participants);

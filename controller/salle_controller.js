@@ -32,10 +32,10 @@ salle_router.put("/:salle_id", checkValidSalleId, async(req, res) => {
     const updatedSalle = await Salle.findByIdAndUpdate(
         req.params.salle_id,
         {
-          nom: req.body.nom,
-          description: req.body.description,
-          capacite : req.body.capacite,
-          img : req.body.img
+          nom: nom,
+          description: description,
+          capacite : capacite,
+          img : img
         },
         { new: true }
     )
