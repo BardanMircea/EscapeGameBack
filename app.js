@@ -20,7 +20,7 @@ app.use("/salles", salle_router);
 app.use("/utilisateurs", utilisateur_router);
 app.use("/reservations", reservation_router);
 app.use("/participants", participant_router);
-app.use("/login", login_router)
+app.use("/login", login_router);
 
 // start the server at http://localhost:3000
 app.listen(port, async () => {
