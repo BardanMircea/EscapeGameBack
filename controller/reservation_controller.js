@@ -3,7 +3,7 @@ const express = require("express");
 const reservationRouter = express.Router();
 const mongoose = require("mongoose");
 
-// middleware to 404 error reservation
+// middleware to check valid id reservation 
 const checkValidIdReserv = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -30,7 +30,7 @@ reservationRouter.get("/", async (req, res) => {
   res.json(reservations);
 });
 
-//get reservation whith idmiddlware
+//get reservation whith id middelware
 reservationRouter.get("/:id", checkValidIdReserv, async (req, res) => {
   let id = req.params.id;
   const reservation = await Reservation.findOne({ _id: id });

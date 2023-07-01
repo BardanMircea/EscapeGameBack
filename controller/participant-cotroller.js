@@ -4,7 +4,7 @@ const express = require("express");
 const participantRouter = express.Router();
 const mongoose = require("mongoose");
 
-// middleware to 404 error participants
+// middleware to check valid participant id
 const checkValidIdParticipant = async (req, res, next) => {
   try {
     const id = req.params.id;
