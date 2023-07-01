@@ -37,25 +37,31 @@ utilisateurRouter.get("/:id", checkValidIdUser, async (req, res) => {
 
 // Create a new user
 utilisateurRouter.post("/", async (req, res) => {
-  const { nom, prenom, email, mdp, naissance, role } = req.body;
-  if (nom && prenom && email && mdp && naissance && role) {
-    
-    // hashage du mdp
-    const encryptedMdp = bcrypt.hashSync(mdp, 8)
-
-    await Utilisateur.create({
-      nom: nom,
-      prenom: prenom,
-      email: email,
-      mdp: encryptedMdp,
-      naissance: naissance,
-      role: role,
-    });
-    const utilisateurs = await Utilisateur.find({});
-    res.json(utilisateurs);
-  } else {
-    res.status(422).json("Attributs manquants");
+  // check if [nom, prenom, mdp, email, naissance] attributes are present in the req.body (the [role] attribute will be set to "utilisateur" by default, later)
+  const {nom, prenom, email, mdp, naissance} = req.body;
+  if(!nom || !prenom || !email || !mdp || !naissance){
+      return res.status(422).json("Attributs manquants")
   }
+
+  // check if the new user's email is already in the database
+  const utilisateur = await Utilisateur.findOne({email : req.body.email})
+  if(utilisateur){
+      return res.status(409).json("Adresse email deja enregistree")
+  }
+
+  // if not, create a new user and send a response status 200 
+  const encryptedMdp = bcrypt.hashSync(mdp, 8)
+
+  await Utilisateur.create({
+      nom : nom,
+      prenom : prenom,
+      email : email,
+      mdp : encryptedMdp,
+      naissance : naissance,
+      role : "utilisateur"
+  })
+
+  res.sendStatus(200)
 });
 
 // Update the given user
