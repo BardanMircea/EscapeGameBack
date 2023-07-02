@@ -5,6 +5,9 @@ const port = 3000;
 const mongoose = require("mongoose"); // install mongoose (npm i mongoose)
 const bodyParser = require("body-parser");
 
+// import cors
+const cors = require("cors")
+
 // import routers
 const salle_router = require("./controller/salle_controller");
 const utilisateur_router = require("./controller/utilisateur_controller");
@@ -15,6 +18,9 @@ const login_router = require("./controller/login_controller")
 // use body-parser pour les requettes POST at PUT
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// use CORS middleware to allow cross-origin requests from our frontend domain
+app.use(cors())
 
 // configurer les routes
 app.use("/salles", salle_router);

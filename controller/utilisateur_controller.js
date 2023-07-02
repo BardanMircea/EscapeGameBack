@@ -37,6 +37,7 @@ utilisateurRouter.get("/:id", checkValidIdUser, async (req, res) => {
 
 // Create a new user
 utilisateurRouter.post("/", async (req, res) => {
+  console.log("back here")
   // check if [nom, prenom, mdp, email, naissance] attributes are present in the req.body (the [role] attribute will be set to "utilisateur" by default, later)
   const {nom, prenom, email, mdp, naissance} = req.body;
   if(!nom || !prenom || !email || !mdp || !naissance){
@@ -46,7 +47,7 @@ utilisateurRouter.post("/", async (req, res) => {
   // check if the new user's email is already in the database
   const utilisateur = await Utilisateur.findOne({email : req.body.email})
   if(utilisateur){
-      return res.status(409).json("Adresse email deja enregistree")
+      return res.status(409).json("Adresse email deja enregistreé")
   }
 
   // if not, create a new user and send a response status 200 
