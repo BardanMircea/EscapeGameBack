@@ -37,6 +37,17 @@ reservationRouter.get("/:id", checkValidIdReserv, async (req, res) => {
   res.json(reservation);
 });
 
+// get reservations by salle id
+reservationRouter.get("/salle/:salleId", async (req, res) => {
+  const reservations = await Reservation.find({salleId : req.params.salleId})
+  console.log(reservations)
+  if(!reservations){
+    res.status(404).json("Pas de Reservation pour cette salle")
+  }
+
+  res.json(reservations)
+})
+
 // Create a reservation
 reservationRouter.post("/", async (req, res) => {
   const { salleId, jour, creneau, utilisateurId } = req.body;
