@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt")
 // check the user's login credentials received from the React app (email and mdp) and check if they exist in the database 
 login_router.post("/", async(req, res) => {
     const {email, mdp} = req.body
+
     if(!email || !mdp){
         return res.status(422).json("Missing login credential(s)")
     }
@@ -21,7 +22,6 @@ login_router.post("/", async(req, res) => {
 
     // if the user is not found, or the received password doesn't match the password from the database, send a 404 
     return res.sendStatus(404)
-    
 })
 
 module.exports=login_router
