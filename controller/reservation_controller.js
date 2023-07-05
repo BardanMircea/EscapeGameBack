@@ -40,7 +40,7 @@ reservationRouter.get("/:id", checkValidIdReserv, async (req, res) => {
   res.json(reservation);
 });
 
-// //get reservation by utilisateur id
+//get reservation by utilisateur id
 reservationRouter.get("/utilisateur/:id", async (req, res) => {
   let idUser = req.params.id;
 
@@ -54,7 +54,7 @@ reservationRouter.get("/utilisateur/:id", async (req, res) => {
   }
 });
 
-// //get PARTICIPANTS reservation by utilisateur id
+//get PARTICIPANTS RESERVATION SALLE by utilisateur id
 reservationRouter.get("/participants/:id", async (req, res) => {
   let idUser = req.params.id;
   const reservations = await Reservation.find({ utilisateurId: idUser });
