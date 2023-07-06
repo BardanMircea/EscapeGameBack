@@ -40,7 +40,6 @@ reservationRouter.get("/:id", checkValidIdReserv, async (req, res) => {
 // get reservations by salle id
 reservationRouter.get("/salle/:salleId", async (req, res) => {
   const reservations = await Reservation.find({salleId : req.params.salleId})
-  console.log(reservations)
   if(!reservations){
     res.status(404).json("Pas de Reservation pour cette salle")
   }
@@ -59,7 +58,8 @@ reservationRouter.post("/", async (req, res) => {
       utilisateurId: utilisateurId,
     });
     const reservations = await Reservation.find({});
-    res.send(reservations);
+    console.log(reservations[reservations.length-1]._id)
+    res.send(reservations[reservations.length-1]._id);
   } else {
     res.status(422).json("Attributs manquants");
   }

@@ -47,21 +47,30 @@ participantRouter.get("/:id", async (req, res) => {
 });
 
 // Create a new participant
-participantRouter.post("/", async (req, res) => {
-  const { nom, prenom, naissance, reservationId } = await req.body;
-  if (nom && prenom && naissance && reservationId) {
-    await Participant.create({
-      nom: nom,
-      prenom: prenom,
-      naissance: naissance,
-      reservationId: reservationId,
-    });
-    const participants = await Participant.find({});
-    res.json(participants);
-  } else {
-    res.sendStatus(422);
-  }
-});
+// participantRouter.post("/", async (req, res) => {
+//   const { nom, prenom, naissance, reservationId } = await req.body;
+//   if (nom && prenom && naissance && reservationId) {
+//     await Participant.create({
+//       nom: nom,
+//       prenom: prenom,
+//       naissance: naissance,
+//       reservationId: reservationId,
+//     });
+//     const participants = await Participant.find({});
+//     res.json(participants);
+//   } else {
+//     res.sendStatus(422);
+//   }
+// });
+
+// create multiple participants at once
+participantRouter.post("/", async(req, res) => {
+  console.log("HERE")
+  const [participants] = req.body
+  console.log(participants)
+  await Participant.insertMany(participants)
+  res.sendStatus(200)
+})
 
 // Update the given participant
 participantRouter.put("/:id", checkValidIdParticipant, async (req, res) => {
