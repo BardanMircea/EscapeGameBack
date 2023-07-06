@@ -37,7 +37,6 @@ utilisateurRouter.get("/:id", checkValidIdUser, async (req, res) => {
 
 // Create a new user
 utilisateurRouter.post("/", async (req, res) => {
-  console.log("back here")
   // check if [nom, prenom, mdp, email, naissance] attributes are present in the req.body (the [role] attribute will be set to "utilisateur" by default, later)
   const {nom, prenom, email, mdp, naissance} = req.body;
   if(!nom || !prenom || !email || !mdp || !naissance){
