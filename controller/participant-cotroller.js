@@ -66,7 +66,7 @@ participantRouter.get("/:id", async (req, res) => {
 // create multiple participants at once
 participantRouter.post("/", async(req, res) => {
   console.log("HERE")
-  const [participants] = req.body
+  const participants = req.body
   console.log(participants)
   await Participant.insertMany(participants)
   res.sendStatus(200)
