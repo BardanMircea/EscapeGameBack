@@ -29,7 +29,7 @@ salle_router.put("/:salle_id", checkValidSalleId, async (req, res) => {
   const { nom, description, capacite, img, status } = await Salle.findById(
     req.params.salle_id
   );
-  const salle = await Salle.findById(req.params.salle_id);
+  //const salle = await Salle.findById(req.params.salle_id);
 
   const updatedSalle = await Salle.findByIdAndUpdate(
     req.params.salle_id,
@@ -38,7 +38,7 @@ salle_router.put("/:salle_id", checkValidSalleId, async (req, res) => {
       description: description,
       capacite: capacite,
       img: img,
-      status: status,
+      status: req.body.status,
     },
     { new: true }
   );
